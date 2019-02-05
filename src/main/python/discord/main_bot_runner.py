@@ -32,8 +32,8 @@ async def on_message(message):
         # else:
         #     bot.send_message(message.channel, "I already a reminder for you at this time")
     if content.startswith('!roll'):
-        message = get_roll_message(message.content, message.author.id)
-        await bot.send_message(message.channel, message)
+        reply = get_roll_message(message.content, message.author.id)
+        await bot.send_message(message.channel, reply)
 
 def __show_help(channel):
     bot.send_message(channel, "")
@@ -41,7 +41,7 @@ def __show_help(channel):
 async def send_message_to_channel(message, text):
     await bot.wait_until_ready()
     bot.send_message(message.channel, text)
-    
+
 if __name__ == '__main__':
     args = sys.argv
     token = args[1]
