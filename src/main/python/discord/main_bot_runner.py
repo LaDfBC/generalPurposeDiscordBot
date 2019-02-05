@@ -1,9 +1,7 @@
-from time import sleep
-
 import discord
 import sys
 
-from src.main.python.roll.roll_util import parse_roll, get_roll_results
+from src.main.python.roll.roll_util import get_roll_message
 
 bot = discord.Client()
 ready = False
@@ -34,24 +32,16 @@ async def on_message(message):
         # else:
         #     bot.send_message(message.channel, "I already a reminder for you at this time")
     if content.startswith('!roll'):
-        parse_roll(message.content)
-        await bot.send_message(message.channel, get_roll_results())
-
+        message = get_roll_message(message.content, message.author.id)
+        await bot.send_message(message.channel, message)
 
 def __show_help(channel):
     bot.send_message(channel, "")
 
-
-
 async def send_message_to_channel(message, text):
     await bot.wait_until_ready()
     bot.send_message(message.channel, text)
-#
-# async def send_reminder_direct_message():
-#     await bot.wait_until_ready()
-#     bot.send_message(person, text)
-
-
+    
 if __name__ == '__main__':
     args = sys.argv
     token = args[1]
