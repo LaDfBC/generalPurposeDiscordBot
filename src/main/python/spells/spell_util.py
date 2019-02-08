@@ -3,20 +3,21 @@ from python.sheets.sheets_util import get_gspread_service
 key = '1cuwb3QSvWDD7GG5McdvyyRBpqycYuKMRsXgyrvxvLFI'
 base_url = 'https://www.d20pfsrd.com/magic/all-spells/'
 
-def get_spell_message(content):
+def get_spell_message(content, author):
+    print("Fetching..." + content + " for " + author)
     data = __fetch_data(__parse_spell_message(content))
 
     if data is None:
         return ", I can't find that spell for you.  Maybe the site is down?"
     else:
-        message = ", Here's some basic info for you:\n" + \
+        message = ", Here's some basic info for you about " + data['name'] + ":\n" + \
         "School: " + data['school'] + '\n' + \
         "Cast Time: " + data['casting_time'] + '\n' + \
         "Range: " + data['range'] + '\n' + \
         "Short Description: " + data['short_description'] + '\n' + \
         "And the URL can be found here: " + data['url'] + '\n'
 
-    return message
+    return "<@" + str(author) + ">" + message
 
 def __parse_spell_message(content):
     space_index = content.find(' ')
@@ -40,6 +41,7 @@ def __fetch_data(spell):
                 return None
 
             row = cell.row
+            data['name'] = spell
             data['school'] = worksheet.cell(row, 2).value
             data['spell_level'] = worksheet.cell(row, 5).value
             data['casting_time'] = worksheet.cell(row, 6).value

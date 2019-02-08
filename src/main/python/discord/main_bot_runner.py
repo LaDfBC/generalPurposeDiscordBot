@@ -36,7 +36,7 @@ async def on_message(message):
         reply = get_roll_message(message.content, message.author.id)
         await bot.send_message(message.channel, reply)
     if content.startswith('!spell'):
-        reply = get_spell_message(message.content)
+        reply = get_spell_message(message.content, message.author.id)
         await bot.send_message(message.channel, reply)
 
 def __show_help(channel):
