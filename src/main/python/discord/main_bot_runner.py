@@ -1,7 +1,8 @@
 import discord
 import sys
 
-from src.main.python.roll.roll_util import get_roll_message
+from main.python.roll.roll_util import get_roll_message
+from python.spells.spell_util import get_spell_message
 
 bot = discord.Client()
 ready = False
@@ -33,6 +34,9 @@ async def on_message(message):
         #     bot.send_message(message.channel, "I already a reminder for you at this time")
     if content.startswith('!roll'):
         reply = get_roll_message(message.content, message.author.id)
+        await bot.send_message(message.channel, reply)
+    if content.startswith('!spell'):
+        reply = get_spell_message(message.content)
         await bot.send_message(message.channel, reply)
 
 def __show_help(channel):
